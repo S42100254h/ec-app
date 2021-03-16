@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
+import createStore from "./reducks/store/store";
+import App from './App';
 
 const history = History.createBrowserHistory();
 export const store = createStore(history);
-
-import createStore from "./reducks/store/store";
-import App from './App';
 
 ReactDOM.render(
   <Provider store={store}>
