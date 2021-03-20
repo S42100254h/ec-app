@@ -2,21 +2,38 @@ import { signInAction } from "./actions";
 import { push } from "connected-react-router";
 import { auth, db, FirebaseTimeStamp } from "../../firebase/index";
 
-// export const signIn = (email, password) => {
-//   return async (dispatch, getState) => {
-//     const state = getState();
-//     const isSignedIn = state.users.isSignedIn;
+export const signIn = (email, password) => {
+  return async (dispatch) => {
+    // Validation
+    if (email === "" || password === "") {
+      alert("必須項目が未入力です");
+      return false;
+    }
 
-//     if (!isSignedIn) {
-//       const userDate = await emailSignIn(email, password)
-//       dispatch(signInAction({
-//         isSignedIn: true,
-//         uid: "0001",
-//         username: "neko"
-//       }));
-//     }
-//   };
-// };
+    auth.signInWithEmailAndPassword(email, password)
+      .then(result => {
+        const user = result.user
+
+        if (user) {
+          const uid = user.uid
+
+          db.collection("users").doc(uid).get()
+            .then(snapshots=> {
+              const data = snapshots.data();
+
+              dispatch(signInAction( {
+                isSignIn: true,
+                role: data.role,
+                uid: uid,
+                username: data.username
+              }));
+
+              dispatch(push("/"));
+            });
+        }
+      });
+  };
+};
 
 export const signUp = (username, email, password, confirmPassword) => {
   return async (dispatch) => {
