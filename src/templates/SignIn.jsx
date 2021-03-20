@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
-import { signInAction } from "../reducks/users/actions";
+import { PrimaryButton, TextInput } from "../components/UIkit";
+import { signIn } from "../reducks/users/operations";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   
+  const [ email, setEmail ] = useState(""),
+        [ password, setPassword ] = useState("");
+
+  const inputEmail = useCallback((event) => {
+    setEmail(event.target.value)
+  }, [setEmail]);
+
+  const inputPassword = useCallback((event) => {
+    setPassword(event.target.value)
+  }, [setPassword]);
+  
   return (
-    <div>
-      <h2>サインイン</h2>
-      <button onClick={() => {
-        dispatch(signInAction({ uid: "00001", username: "neko"}));
-        dispatch(push("/"))
-      }}>
-        サインイン
-      </button>
+    <div className="c-section-container">
+      <h2 className="u-text__headline u-text-center">アカウント登録</h2>
+      <div className="module-spacer--medium" />
+      <TextInput
+        fullWidth={true} label={"メールアドレス"} multiline={false} required={true} rows={1} value={email} type={"email"} onChange={inputEmail}
+      />
+      <TextInput
+        fullWidth={true} label={"パスワード"} multiline={false} required={true} rows={1} value={password} type={"password"} onChange={inputPassword}
+      />
+      <div className="module-spacer--medium"></div>
+      <div className="center">
+        <PrimaryButton
+          label={"サインインする"}
+          onClick={() => dispatch(signIn(email, password))}
+        />
+      </div>
     </div>
   );
 };
