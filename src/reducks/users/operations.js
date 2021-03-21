@@ -10,6 +10,11 @@ export const signIn = (email, password) => {
       return false;
     }
 
+    if (password.length < 6) {
+      alert("パスワードは6文字以上で入力してください");
+      return false;
+    }
+
     auth.signInWithEmailAndPassword(email, password)
       .then(result => {
         const user = result.user
@@ -45,6 +50,11 @@ export const signUp = (username, email, password, confirmPassword) => {
 
     if (password !== confirmPassword) {
       alert("パスワードが一致していません。");
+      return false;
+    }
+
+    if (password.length < 6) {
+      alert("パスワードは6文字以上で入力してください");
       return false;
     }
 
