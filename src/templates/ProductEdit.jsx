@@ -2,8 +2,12 @@ import React, { useState, useCallback } from "react";
 import TextInput from "../components/UIkit/TextInput";
 import SelectBox from "../components/UIkit/SelectBox";
 import PrimaryButton from "../components/UIkit/PrimaryButton";
+import { useDispatch } from "react-redux";
+import { saveProduct } from "../reducks/products/operations";
 
 const ProductEdit = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState(""),
         [description, setDescription] = useState(""),
         [price, setPrice] = useState(""),
@@ -58,6 +62,7 @@ const ProductEdit = () => {
       <div classNmae="center">
         <PrimaryButton
           label={"商品情報を保存"}
+          onClick={() => dispatch(saveProduct(name, description, category, gender, price))}
         />
       </div>
      </div>
