@@ -3,7 +3,7 @@ import { db, FirebaseTimeStamp } from "../../firebase/index";
 
 const productsRef = db.collection("products");
 
-export const saveProduct = (name, description, category, gender, price, images) => {
+export const saveProduct = (name, description, category, gender, images, price) => {
   return async (dispatch) => {
     const timestamp = FirebaseTimeStamp.now();
 
