@@ -1,13 +1,19 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import TextInput from "../components/UIkit/TextInput";
 import SelectBox from "../components/UIkit/SelectBox";
 import PrimaryButton from "../components/UIkit/PrimaryButton";
 import { useDispatch } from "react-redux";
 import { saveProduct } from "../reducks/products/operations";
 import ImageArea from "../components/Products/ImageArea";
+import { db } from "../firebase";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
+  let id = window.location.pathname.split("/product/edit")[1];
+  
+  if (id !== "") {
+    id = id.split("/")[1];
+  } 
 
   const [name, setName] = useState(""),
         [description, setDescription] = useState(""),
@@ -37,6 +43,21 @@ const ProductEdit = () => {
     { id: "male", name: "メンズ"},
     { id: "femail", name: "レディース"}
   ];
+
+  useEffect(() => {
+    if (id !== "") {
+      db.collection("products").doc(id).get()
+        .then(snapshot => {
+          const data = snapshot.data();
+          setImages(data.images);
+          setName(data.name)
+          setDescription(data.description);
+          setCategory(data.category);
+          setGender(data.gender);
+          setPrice(data.price);
+        });
+    } 
+  }, [id]);
   
   return (
    <section>
