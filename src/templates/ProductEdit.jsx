@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { saveProduct } from "../reducks/products/operations";
 import ImageArea from "../components/Products/ImageArea";
 import { db } from "../firebase";
+import { SetSizeArea } from "../components/Products";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,8 @@ const ProductEdit = () => {
         [price, setPrice] = useState(""),
         [category, setCategory] = useState(""),
         [images, setImages] = useState(""),
-        [gender, setGender] = useState("");
+        [gender, setGender] = useState(""),
+        [sizes, setSizes] = useState("");
 
   const inputName = useCallback((event) => {
     setName(event.target.value)
@@ -82,7 +84,9 @@ const ProductEdit = () => {
           fullWidth={true} label={"価格"} multiline={false} required={true}
           onChange={inputPrice} rows={1} value={price} type={"number"}
         />
-        <div className="module-spacer--medium" />
+        <div className="module-spacer--small" />
+        <SetSizeArea sizes={sizes} />
+        <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
             label={"商品情報を保存"}
