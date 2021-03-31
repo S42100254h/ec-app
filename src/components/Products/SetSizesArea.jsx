@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   }
 });
 
-const SetSizeArea = (props) => {
+const SetSizesArea = (props) => {
   const classes = useStyles();
 
   const [index, setIndex] = useState(0),
@@ -38,6 +38,18 @@ const SetSizeArea = (props) => {
   const inputQuantity = useCallback((event) => {
     setQuantity(event.target.value)
   }, [setQuantity]);
+
+  const addSize = (index, size, quantity) => {
+    if (size === "" || quantity === "") {
+      // Required input is blank
+      return false;
+    } else {
+      props.setSizes(prevState => [...prevState, { size: size, quantity: quantity }])
+      setIndex(index + 1);
+      setSize("");
+      setQuantity(0);
+    }
+  };
 
   return (
     <div>
@@ -78,11 +90,11 @@ const SetSizeArea = (props) => {
               onChange={inputSize} rows={1} value={size} type={"text"}
             />
             <TextInput
-              fullWidth={false} label={"サイズ"} multiline={false} required={true}
+              fullWidth={false} label={"数量"} multiline={false} required={true}
               onChange={inputQuantity} rows={1} value={quantity} type={"number"}
             />
           </div>
-          <IconButton className={classes.checkIcon}>
+          <IconButton className={classes.checkIcon} onClick={() => addSize(index, size, quantity)}>
             <CheckCircleIcon />
           </IconButton>
       </TableContainer>
@@ -90,4 +102,4 @@ const SetSizeArea = (props) => {
   );
 };
 
-export default SetSizeArea;
+export default SetSizesArea;
