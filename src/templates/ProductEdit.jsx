@@ -4,9 +4,8 @@ import SelectBox from "../components/UIkit/SelectBox";
 import PrimaryButton from "../components/UIkit/PrimaryButton";
 import { useDispatch } from "react-redux";
 import { saveProduct } from "../reducks/products/operations";
-import ImageArea from "../components/Products/ImageArea";
+import { ImageArea, SetSizesArea } from "../components/Products/index";
 import { db } from "../firebase";
-import { SetSizeArea } from "../components/Products";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
@@ -19,10 +18,10 @@ const ProductEdit = () => {
   const [name, setName] = useState(""),
         [description, setDescription] = useState(""),
         [price, setPrice] = useState(""),
-        [category, setCategory] = useState(""),
-        [images, setImages] = useState(""),
+        [category, setCategory] = useState([]),
+        [images, setImages] = useState([]),
         [gender, setGender] = useState(""),
-        [sizes, setSizes] = useState("");
+        [sizes, setSizes] = useState([]);
 
   const inputName = useCallback((event) => {
     setName(event.target.value)
@@ -58,7 +57,7 @@ const ProductEdit = () => {
           setGender(data.gender);
           setPrice(data.price);
         });
-    } 
+    }
   }, [id]);
   
   return (
@@ -85,7 +84,7 @@ const ProductEdit = () => {
           onChange={inputPrice} rows={1} value={price} type={"number"}
         />
         <div className="module-spacer--small" />
-        <SetSizeArea sizes={sizes} />
+        <SetSizesArea sizes={sizes} setSizes={setSizes}/>
         <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
