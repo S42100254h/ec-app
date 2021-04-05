@@ -18,7 +18,7 @@ const ProductEdit = () => {
   const [name, setName] = useState(""),
         [description, setDescription] = useState(""),
         [price, setPrice] = useState(""),
-        [category, setCategory] = useState([]),
+        [category, setCategory] = useState(""),
         [images, setImages] = useState([]),
         [gender, setGender] = useState(""),
         [sizes, setSizes] = useState([]);
@@ -56,6 +56,7 @@ const ProductEdit = () => {
           setCategory(data.category);
           setGender(data.gender);
           setPrice(data.price);
+          setSizes(data.sizes);
         });
     }
   }, [id]);
@@ -89,7 +90,7 @@ const ProductEdit = () => {
         <div className="center">
           <PrimaryButton
             label={"商品情報を保存"}
-            onClick={() => dispatch(saveProduct(name, description, category, gender, images, price))}
+            onClick={() => dispatch(saveProduct(id, name, description, category, gender, images, price, sizes))}
           />
       </div>
      </div>

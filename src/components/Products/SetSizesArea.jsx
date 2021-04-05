@@ -12,7 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from "@material-ui/styles";
-import { ProductEdit } from '../../templates/index';
 
 const useStyles = makeStyles({
   checkIcon: {
@@ -40,16 +39,40 @@ const SetSizesArea = (props) => {
   }, [setQuantity]);
 
   const addSize = (index, size, quantity) => {
-    if (size === "" || quantity === "") {
+    if (size === "" || quantity === 0) {
       // Required input is blank
       return false;
     } else {
-      props.setSizes(prevState => [...prevState, { size: size, quantity: quantity }])
-      setIndex(index + 1);
-      setSize("");
-      setQuantity(0);
+      if (index === props.sizes.length) {
+        props.setSizes(prevState => [...prevState, { size: size, quantity: quantity }])
+        setIndex(index + 1);
+        setSize("");
+        setQuantity(0);
+      } else {
+        const newSizes = props.sizes;
+        newSizes[index] = {size: size, quantity: quantity };
+        props.setSizes(newSizes);
+        setIndex(newSizes.length);
+        setSize("");
+        setQuantity(0);
+      }
     }
   };
+
+  const editSize = (index, size, quantity) => {
+    setIndex(index);
+    setSize(size);
+    setQuantity(quantity);
+  };
+
+  const deleteSize = (deleteIndex) => {
+    const newSizes = props.sizes.filter((item, index) =>index !== deleteIndex);
+    props.setSizes(newSizes);
+  };
+
+  useEffect(() => {
+    setIndex(props.sizes.length)
+  }, [props.sizes.length]);
 
   return (
     <div>
@@ -64,18 +87,18 @@ const SetSizesArea = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.sizes.lenght > 0 && (
-              props.sizes.map((item, index) => {
+            {props.sizes.length > 0 && (
+              props.sizes.map((item, i) => {
                 <TableRow key={item.size}>
                   <TableCell>{item.size}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>
-                    <IconButton className={classes.iconCell}>
+                    <IconButton className={classes.iconCell} onClick={() => editSize(i, item.size, item.quanitty)}>
                       <EditIcon />
                     </IconButton>
                   </TableCell>
                   <TableCell>
-                    <IconButton className={classes.iconCell}>
+                    <IconButton className={classes.iconCell} onClick={() => deleteSize(i)}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
