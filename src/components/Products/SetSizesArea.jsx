@@ -88,7 +88,7 @@ const SetSizesArea = (props) => {
           </TableHead>
           <TableBody>
             {props.sizes.length > 0 && (
-              props.sizes.map((item, i) => {
+              props.sizes.map((item, i) => (
                 <TableRow key={item.size}>
                   <TableCell>{item.size}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
@@ -103,7 +103,7 @@ const SetSizesArea = (props) => {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              })
+              ))
             )}
           </TableBody>
         </Table>
