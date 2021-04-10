@@ -1,20 +1,27 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import TextInput from "../components/UIkit/TextInput";
 import SelectBox from "../components/UIkit/SelectBox";
 import PrimaryButton from "../components/UIkit/PrimaryButton";
 import { useDispatch } from "react-redux";
 import { saveProduct } from "../reducks/products/operations";
-import ImageArea from "../components/Products/ImageArea";
+import { ImageArea, SetSizesArea } from "../components/Products/index";
+import { db } from "../firebase";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
+  let id = window.location.pathname.split("/product/edit")[1];
+  
+  if (id !== "") {
+    id = id.split("/")[1];
+  } 
 
   const [name, setName] = useState(""),
         [description, setDescription] = useState(""),
         [price, setPrice] = useState(""),
         [category, setCategory] = useState(""),
-        [images, setImages] = useState(""),
-        [gender, setGender] = useState("");
+        [images, setImages] = useState([]),
+        [gender, setGender] = useState(""),
+        [sizes, setSizes] = useState([]);
 
   const inputName = useCallback((event) => {
     setName(event.target.value)
@@ -37,6 +44,22 @@ const ProductEdit = () => {
     { id: "male", name: "メンズ"},
     { id: "femail", name: "レディース"}
   ];
+
+  useEffect(() => {
+    if (id !== "") {
+      db.collection("products").doc(id).get()
+        .then(snapshot => {
+          const data = snapshot.data();
+          setImages(data.images);
+          setName(data.name)
+          setDescription(data.description);
+          setCategory(data.category);
+          setGender(data.gender);
+          setPrice(data.price);
+          setSizes(data.sizes);
+        });
+    }
+  }, [id]);
   
   return (
    <section>
@@ -61,11 +84,13 @@ const ProductEdit = () => {
           fullWidth={true} label={"価格"} multiline={false} required={true}
           onChange={inputPrice} rows={1} value={price} type={"number"}
         />
-        <div className="module-spacer--medium" />
+        <div className="module-spacer--small" />
+        <SetSizesArea sizes={sizes} setSizes={setSizes}/>
+        <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
             label={"商品情報を保存"}
-            onClick={() => dispatch(saveProduct(name, description, category, gender, images, price))}
+            onClick={() => dispatch(saveProduct(id, name, description, category, gender, images, price, sizes))}
           />
       </div>
      </div>
