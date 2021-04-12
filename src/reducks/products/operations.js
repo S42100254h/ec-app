@@ -1,5 +1,6 @@
 import { push } from "connected-react-router";
 import { db, FirebaseTimeStamp } from "../../firebase/index";
+import { fetchProductsAction } from "./actions";
 
 const productsRef = db.collection("products");
 
