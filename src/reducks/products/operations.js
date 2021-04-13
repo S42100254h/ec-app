@@ -1,6 +1,6 @@
 import { push } from "connected-react-router";
 import { db, FirebaseTimeStamp } from "../../firebase/index";
-import { fetchProductsAction } from "./actions";
+import { deleteProductsAction, fetchProductsAction } from "./actions";
 
 const productsRef = db.collection("products");
 
@@ -10,7 +10,7 @@ export const deleteProduct = (id) => {
       .then(() => {
         const prevProducts = getState().products.list;
         const nextProducts = prevProducts.filter(product => product.id !== id);
-        dispatch(deleteProductAction(nextProducts));
+        dispatch(deleteProductsAction(nextProducts));
       });
   };
 };
