@@ -34,6 +34,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const returnCodeToBr = (text) => {
+  if (text === "") {
+    return text;
+  } else {
+    return HTMLReactParser(text.replace(/\r?\n/g, "<br/>"));
+  }
+};
+
 const ProductDetail = () => {
   const classes = useStyles();
   const selector = useSelector((state) => state);
@@ -62,7 +70,7 @@ const ProductDetail = () => {
             <p className={classes.price}>{product.price.toLocaleString()}</p>
             <div className="module-spacer--small" />
             <div className="module-spacer--small" />
-             
+            <p>{returnCodeToBr(product.description)}</p>
           </div>
         </div>
       )}
