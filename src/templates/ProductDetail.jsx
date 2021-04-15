@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { db } from "../firebase";
 import { makeStyles } from "@material-ui/styles";
+import HTMLReactParser from "html-react-parser";
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
