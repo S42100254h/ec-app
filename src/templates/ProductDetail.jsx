@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { db } from "../firebase";
 import { makeStyles } from "@material-ui/styles";
 import HTMLReactParser from "html-react-parser";
-import { ImageSwiper } from "../components/Products/ImageSwiper";
+import ImageSwiper from "../components/Products/ImageSwiper";
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
