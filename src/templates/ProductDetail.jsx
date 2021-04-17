@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { db } from "../firebase";
