@@ -16,6 +16,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { TextInput } from "../UIkit/index";
 import { push } from "connected-react-router";
 import { MenuItem } from "@material-ui/core";
+import { signOut } from "../../reducks/users/operations";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -88,7 +89,7 @@ const ClosableDrawer = (props) => {
                 <ListItemText primary={menu.label} />
               </ListItem>
             ))}
-            <ListItem button key="logout">
+            <ListItem button key="logout" onClick={() => dispatch(signOut())}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
