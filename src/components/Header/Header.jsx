@@ -47,7 +47,7 @@ const Header = () => {
         <Toolbar className={classes.toolBar}>
           <img
             src={logo} alt="shirokuma-mile" width="300px"
-            onClick={() => dispatchEvent(push("/"))}
+            onClick={() => dispatch(push("/"))}
           />
           {isSignedIn && (
             <div className={classes.iconButtons}>
