@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIsSignedIn } from "../../reducks/users/selectors";
 import logo from "../../assets/img/src/logo.png";
 import { push } from "connected-react-router";
+import { HeaderMenus } from "./index";
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 
 const Header = () => {
   const classes = useStyles();
-  const dispacht = useDispatch();
+  const dispatch = useDispatch();
   const selector = useSelector((state) => state);
   const isSignedIn = getIsSignedIn(selector);
 
@@ -39,6 +40,11 @@ const Header = () => {
             src={logo} alt="shirokuma-mile" width="300px"
             onClick={() => dispatchEvent(push("/"))}
           />
+          {isSignedIn && (
+            <div className={classes.iconButtons}>
+              <HeaderMenus />
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     </div>

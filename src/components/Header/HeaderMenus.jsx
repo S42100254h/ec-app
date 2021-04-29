@@ -1,7 +1,7 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import ShoppingCartIcon from "@material-ui/core/Icons/ShoppingCart";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import MenuIcon from "@material-ui/icons/Menu";
 
