@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import HTMLReactParser from "html-react-parser";
 import ImageSwiper from "../components/Products/ImageSwiper";
 import SizeTable from "../components/Products/SizeTable";
+import { addProductToCart } from "../reducks/users/operations";
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
