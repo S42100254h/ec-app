@@ -3,6 +3,16 @@ import { push } from "connected-react-router";
 import { auth, db, FirebaseTimeStamp } from "../../firebase/index";
 import { isValidEmailFormat, isValidRequiredInput } from "../../function/common";
 
+export const addProductToCart = (addedProduct) => {
+  return async (dispatch, getState) => {
+    const uid = getState().users.uid;
+    const cartRef = db.collection("user").doc(uid).collection("cart").doc();
+    addedProduct["cartId"] = cartRef.id;
+    await cartRef.set(addedProduct);
+    dispatch(push("/"));
+  }
+};
+
 export const listenAuthState = () => {
   return async (dispatch) => {
     return auth.onAuthStateChanged(user => {
