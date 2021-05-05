@@ -55,10 +55,10 @@ const CartListItem = (props) => {
           <ListItemText
             primary={"¥" + price}
           />
-          <IconButton>
-            <DeleteIcon onClick={() => removeProductFromCart(props.product.cartId)} />
-          </IconButton>
         </div>
+        <IconButton>
+          <DeleteIcon onClick={() => removeProductFromCart(props.product.cartId)} />
+        </IconButton>
       </ListItem>
       <Divider />
     </>

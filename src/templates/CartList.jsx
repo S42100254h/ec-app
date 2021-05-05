@@ -5,8 +5,18 @@ import { getProductsInCart } from "../reducks/users/selectors";
 import { CartListItem } from "../components/Products";
 import { GreyButton, PrimaryButton } from "../components/UIkit";
 import { push } from "connected-react-router";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: "0 auto",
+    maxWidth: 512,
+    width: "100%"
+  }
+}));
 
 const CartList = () => {
+  const classes = useStyles();
   const selector = useSelector((state) => state);
   const ProductsInCart = getProductsInCart(selector);
   const dispatch = useDispatch();
@@ -16,7 +26,7 @@ const CartList = () => {
   }, []);
 
   const backToHome = useCallback(() => {
-    dispatch(push(""))
+    dispatch(push("/"))
   }, []);
 
   return (
@@ -24,7 +34,7 @@ const CartList = () => {
       <h2 className="u-text__headline">
         ショッピングカート
       </h2>
-      <List>
+      <List className={classes.root}>
         {ProductsInCart.length > 0 && (
           ProductsInCart.map(product => <CartListItem key={product.cartId} product={product} />)
         )}
