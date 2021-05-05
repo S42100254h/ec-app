@@ -4,7 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import { makeStyles } from "@material-ui/styles";
-import DeleteIcon from "@material-ui/Icons/Delete";
+import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../reducks/users/selectors";
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 const CartListItem = (props) => {
   const classes = useStyles();
   const selector = useSelector((state) => state);
-  const uid = setUserId(selector);
+  const uid = getUserId(selector);
 
   const image = props.product.images[0].path;
   const name = props.product.name;
