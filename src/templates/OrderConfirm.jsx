@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsInCart } from "../reducks/users/selectors";
 import { makeStyles } from "@material-ui/styles";
 import { CartListItem } from "../components/Products";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import { PrimaryButton } from "../components/UIkit";
+import { PrimaryButton, TextDetail } from "../components/UIkit";
+import { TabletAndroidOutlined } from "@material-ui/icons";
+import { orderProduct } from "../reducks/products/operations"
 
 const useStyles = makeStyles((theme) => ({
   detailBox: {
@@ -34,6 +36,18 @@ const OrderConfirm = () => {
   const selector = useSelector((state) => state);
   const productsInCart = getProductsInCart(selector);
 
+  const subtotal = useMemo(() => {
+    return productsInCart.reduce((sum, product) => sum += product.price, 0);
+  }, [productsInCart]);
+
+  const shippingFee =  useMemo(() => (subtotal >= 10000) ? 0 : 210, [subtotal]);
+  const tax = useMemo(() => subtotal * 0.1, [subtotal]);
+  const total = useMemo(() => subtotal + shippingFee + tax, [subtotal, shippingFee, tax]);
+
+  const order = useCallback(() => {
+    dispatch(orderProduct)
+  }, []);
+
   return (
     <section className="c-section-wrapin">
       <h2 className="u-text__headline">注文の確認</h2>
@@ -45,7 +59,12 @@ const OrderConfirm = () => {
         </List>
       </div>
       <div className={classes.orderBox}>
-
+        <TextDetail label={"商品合計"} value={"¥" + subtotal.toLocaleString()} />
+        <TextDetail label={"消費税"} value={"¥" + tax.toLocaleString()} />
+        <TextDetail label={"送料"} value={"¥" + shippingFee.toLocaleString()} />
+        <Divider />
+        <TextDetail label={"合計（税込"} value={"¥" + total.toLocaleString()} />
+        <PrimaryButton label={"注文を確定する"} onClick={order} />
       </div>
     </section>
   );
