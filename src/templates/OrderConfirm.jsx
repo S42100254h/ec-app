@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: 320
     },
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: 512
     }
   },
@@ -45,26 +45,28 @@ const OrderConfirm = () => {
   const total = useMemo(() => subtotal + shippingFee + tax, [subtotal, shippingFee, tax]);
 
   const order = useCallback(() => {
-    dispatch(orderProduct)
-  }, []);
+    dispatch(orderProduct(productsInCart, total))
+  }, [productsInCart]);
 
   return (
     <section className="c-section-wrapin">
       <h2 className="u-text__headline">注文の確認</h2>
-      <div className={classes.detailBox}>
-        <List>
-          {productsInCart.length > 0 && (
-            productsInCart.map(product => <CartListItem product={product} key={product.cartId} />)
-          )}
-        </List>
-      </div>
-      <div className={classes.orderBox}>
-        <TextDetail label={"商品合計"} value={"¥" + subtotal.toLocaleString()} />
-        <TextDetail label={"消費税"} value={"¥" + tax.toLocaleString()} />
-        <TextDetail label={"送料"} value={"¥" + shippingFee.toLocaleString()} />
-        <Divider />
-        <TextDetail label={"合計（税込"} value={"¥" + total.toLocaleString()} />
-        <PrimaryButton label={"注文を確定する"} onClick={order} />
+      <div className="p-grid__row">
+        <div className={classes.detailBox}>
+          <List>
+            {productsInCart.length > 0 && (
+              productsInCart.map(product => <CartListItem product={product} key={product.cartId} />)
+            )}
+          </List>
+        </div>
+        <div className={classes.orderBox}>
+          <TextDetail label={"商品合計"} value={"¥" + subtotal.toLocaleString()} />
+          <TextDetail label={"消費税"} value={"¥" + tax.toLocaleString()} />
+          <TextDetail label={"送料"} value={"¥" + shippingFee.toLocaleString()} />
+          <Divider />
+          <TextDetail label={"合計（税込"} value={"¥" + total.toLocaleString()} />
+          <PrimaryButton label={"注文を確定する"} onClick={order} />
+        </div>
       </div>
     </section>
   );

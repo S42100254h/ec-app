@@ -67,8 +67,8 @@ export const orderProduct = (productsInCart, price) => {
         size: product.size
       };
 
-      batch.update(productsRef.doc(product.productId), { size: updateSizes });
-      batch.delete(userRef.collection("cart").doc(product.cartId));
+      batch.update(productsRef.doc(product.productId), {sizes: updateSizes});
+      batch.delete(userRef.collection('cart').doc(product.cartId));
     }
 
     if (soldOutProducts.length > 0) {
@@ -76,22 +76,26 @@ export const orderProduct = (productsInCart, price) => {
       alert("大変申し訳ありません。" + errorMessage + "が在庫切れとなったため注文処理を中断しました。");
       return false;
     } else {
-      // 注文履歴データを作成
-      const orderRef = userRef.collection("orders").doc();
-      const date = timestamp.toDate();
-      // 配送日を３日後に設定
-      const shippingDate = FirebaseTimeStamp.fromDate(new Date(date.setDate(date.getDate() + 3)));
+      return batch.commit()
+        .then(() => {
+          const orderRef = userRef.collection("orders").doc();
+          const date = timestamp.toDate();
+          const shippingDate = FirebaseTimeStamp.fromDate(new Date(date.setDate(date.getDate() + 3)));
 
-      const history = {
-        amount: price,
-        created_at: timestamp,
-        id: orderRef.id,
-        products: products,
-        shipping_date: shippingDate,
-        updated_at: timestamp
-      };
+          const history = {
+            amount: price,
+            created_at: timestamp,
+            id: orderRef.id,
+            products: products,
+            shipping_date: shippingDate,
+            updated_at: timestamp
+          }
 
-      batch.set(orderRef, history, {merge: true});
+          orderRef.set(history);
+          dispatch(push("/order/complete"));
+        }).catch(() => {
+          alert("注文処理に失敗しました。通信環境をご確認のうえ、もう一度お試しください。");
+        })
     }
   };
 };
