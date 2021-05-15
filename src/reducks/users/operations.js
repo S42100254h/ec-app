@@ -13,6 +13,25 @@ export const addProductToCart = (addedProduct) => {
   }
 };
 
+export const fetchOrdersHistory = () => {
+  return async (dispatch, getState) => {
+    const uid = getState().users.uid;
+    const list = [];
+
+    db.collection("orders")
+      .orderBy("updated_at", "desc")
+      .get()
+      .then((snapshots) => {
+        snapshots.forEach(snapshot => {
+          const data = snapshot.data();
+          list.push(data);
+        })
+
+        dispatch(fetchOrdersHistoryAction(list));
+      })
+  }
+};
+
 export const fetchProductsInCart = (products) => {
   return async (dispatch) => {
     dispatch(fetchProductsInCartAction(products))
