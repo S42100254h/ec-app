@@ -2,6 +2,7 @@ import { fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, sign
 import { push } from "connected-react-router";
 import { auth, db, FirebaseTimeStamp } from "../../firebase/index";
 import { isValidEmailFormat, isValidRequiredInput } from "../../function/common";
+import { hideLoadingAction, showLoadingAction } from "../loading/actions";
 
 export const addProductToCart = (addedProduct) => {
   return async (dispatch, getState) => {
@@ -64,6 +65,7 @@ export const listenAuthState = () => {
 
 export const signIn = (email, password) => {
   return async (dispatch) => {
+    dispatch(showLoadingAction("Sign in..."))
     // Validation
     if (!isValidRequiredInput(email, password)) {
       alert("メールアドレスかパスワードが未入力です。");
